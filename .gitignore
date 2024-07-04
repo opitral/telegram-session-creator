@@ -2,6 +2,7 @@
 /.idea
 config.ini
 
-/logs/*
 /results/*
 !/results/example
+
+*.log
