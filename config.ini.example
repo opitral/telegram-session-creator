@@ -1,3 +1,6 @@
 [Telegram]
 api_id = Telegram-API-ID
 api_hash = Telegram-API-Hash
+
+[Asocks]
+api_key = xxxxxxxxxxxxxxxxxxxxx
