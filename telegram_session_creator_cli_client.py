@@ -30,12 +30,13 @@ config.read("config.ini")
 api_id = config["Telegram"]["api_id"]
 api_hash = config["Telegram"]["api_hash"]
 api_key = config["Asocks"]["api_key"]
+country_code = config["Asocks"]["country_code"]
 
 
-def create_proxy(country_code="UA", type_id=2, proxy_type_id=1, name=None, server_port_type_id=1):
+def create_proxy(country="UA", type_id=2, proxy_type_id=1, name=None, server_port_type_id=1):
     try:
         params = {
-            "country_code": country_code,
+            "country_code": country,
             "state": None,
             "city": None,
             "asn": None,
@@ -69,13 +70,15 @@ def create_proxy(country_code="UA", type_id=2, proxy_type_id=1, name=None, serve
 
 def main():
     session_name = input("(session name) > ")
-    src_dir = f"results/{session_name}"
-    os.mkdir(src_dir)
+    account_dir = os.path.join(os.getcwd(), "results", session_name)
+    os.makedirs(os.path.dirname(account_dir), exist_ok=True)
+    os.mkdir(account_dir)
     proxy = None
 
     try:
-        proxy = create_proxy(name=session_name)
-        bot = Client(f"{src_dir}/{session_name}", api_id, api_hash, proxy=proxy)
+        proxy = create_proxy(name=session_name, country=country_code)
+        session_file_path = os.path.join(account_dir, session_name)
+        bot = Client(session_file_path, api_id, api_hash, proxy=proxy)
 
         with bot:
             account = bot.get_me()
@@ -99,7 +102,7 @@ def main():
             "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
 
-        with open(f"{src_dir}/{session_name}.json", "w", encoding="utf-8") as f:
+        with open(f"{account_dir}/{session_name}.json", "w", encoding="utf-8") as f:
             f.write(json.dumps(session_config, indent=4, ensure_ascii=False))
 
         logger.info(session_config)
