@@ -1,6 +1,7 @@
 import json
 import os
 import configparser
+import sys
 from datetime import datetime
 
 import requests
@@ -71,8 +72,14 @@ def create_proxy(country="UA", type_id=2, proxy_type_id=1, name=None, server_por
 def main():
     session_name = input("(session name) > ")
     account_dir = os.path.join(os.getcwd(), "results", session_name)
+
+    if os.path.isdir(account_dir):
+        logger.error(f"Session with the name \"{session_name}\" already exists")
+        sys.exit(1)
+
     os.makedirs(os.path.dirname(account_dir), exist_ok=True)
     os.mkdir(account_dir)
+
     proxy = None
 
     try:
