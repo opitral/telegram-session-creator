@@ -85,7 +85,7 @@ def main():
     try:
         proxy = create_proxy(name=session_name, country=country_code)
         session_file_path = os.path.join(account_dir, session_name)
-        bot = Client(session_file_path, api_id, api_hash, proxy=proxy)
+        bot = Client(session_file_path, api_id, api_hash, proxy=proxy, lang_code="ru")
 
         with bot:
             account = bot.get_me()
