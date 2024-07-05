@@ -8,6 +8,6 @@
         "password": "EeDbmAylIuYTqt2H"
     },
     "db": "example_db",
-    "target_chat": "example_chat_link",
+    "to_chat": "example_chat_link",
     "created_at": "2024-07-05 01:42:29"
 }
