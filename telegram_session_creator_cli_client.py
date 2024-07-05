@@ -99,13 +99,13 @@ def main():
 
     try:
         db_name = input("(db name) > ")
-        target_chat = input("(target chat) > ")
+        to_chat_link = input("(chat link) > ")
 
         session_config = {
             "session": session_name,
             "proxy": proxy,
             "db": db_name,
-            "target_chat": target_chat,
+            "to_chat": to_chat_link,
             "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
 
