@@ -4,3 +4,4 @@ api_hash = Telegram-API-Hash
 
 [Asocks]
 api_key = Your-API-Key
+country_code = You-Country-Code
