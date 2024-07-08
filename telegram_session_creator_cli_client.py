@@ -106,6 +106,7 @@ def main():
             "proxy": proxy,
             "db": db_name,
             "to_chat": to_chat_link,
+            "blocked": False,
             "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
 
