@@ -31,15 +31,17 @@ config.read("config.ini")
 api_id = config["Telegram"]["api_id"]
 api_hash = config["Telegram"]["api_hash"]
 api_key = config["Asocks"]["api_key"]
-country_code = config["Asocks"]["country_code"]
+proxy_country_code = config["Asocks"]["country_code"]
+proxy_state = config["Asocks"]["state"]
+proxy_city = config["Asocks"]["city"]
 
 
-def create_proxy(country="UA", type_id=2, proxy_type_id=1, name=None, server_port_type_id=1):
+def create_proxy(country="UA", state=None, city=None, type_id=2, proxy_type_id=1, name=None, server_port_type_id=1):
     try:
         params = {
             "country_code": country,
-            "state": None,
-            "city": None,
+            "state": state,
+            "city": city,
             "asn": None,
             "type_id": type_id,
             "proxy_type_id": proxy_type_id,
@@ -83,7 +85,7 @@ def main():
     proxy = None
 
     try:
-        proxy = create_proxy(name=session_name, country=country_code)
+        proxy = create_proxy(name=session_name, country=proxy_country_code, state=proxy_state, city=proxy_city)
         session_file_path = os.path.join(account_dir, session_name)
         bot = Client(session_file_path, api_id, api_hash, proxy=proxy, lang_code="ru")
 
