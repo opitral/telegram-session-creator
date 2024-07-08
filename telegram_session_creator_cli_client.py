@@ -16,7 +16,7 @@ console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.INFO)
 
 file_handler = logging.FileHandler("creator.log")
-file_handler.setLevel(logging.INFO)
+file_handler.setLevel(logging.WARNING)
 
 formatter = logging.Formatter("%(asctime)s - [%(levelname)s] - %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 console_handler.setFormatter(formatter)
