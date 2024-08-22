@@ -30,45 +30,6 @@ config.read("config.ini")
 
 api_id = config["Telegram"]["api_id"]
 api_hash = config["Telegram"]["api_hash"]
-api_key = config["Asocks"]["api_key"]
-proxy_country_code = config["Asocks"]["country_code"]
-proxy_state = config["Asocks"]["state"]
-proxy_city = config["Asocks"]["city"]
-
-
-def create_proxy(country="UA", state=None, city=None, type_id=2, proxy_type_id=1, name=None, server_port_type_id=1):
-    try:
-        params = {
-            "country_code": country,
-            "state": state,
-            "city": city,
-            "asn": None,
-            "type_id": type_id,
-            "proxy_type_id": proxy_type_id,
-            "name": name,
-            "server_port_type_id": server_port_type_id
-        }
-        response = requests.post(f"https://api.asocks.com/v2/proxy/create-port?apiKey={api_key}", data=params)
-
-        if response.status_code == 200:
-            data = response.json().get("data", {})
-            proxy = {
-                "scheme": "socks5",
-                "hostname": data["server"],
-                "port": data["port"],
-                "username": data["login"],
-                "password": data["password"]
-            }
-
-            logger.info(f"Proxy created: {proxy['hostname']}:{proxy['port']}")
-
-            return proxy
-
-        else:
-            logger.warning(F"Asocks return status code: {response.status_code}")
-
-    except Exception as ex:
-        logger.error(f"Error while creating proxy, details: {ex}")
 
 
 def main():
@@ -85,9 +46,15 @@ def main():
     proxy = None
 
     try:
-        proxy = create_proxy(name=session_name, country=proxy_country_code, state=proxy_state, city=proxy_city)
+        proxy = {
+            "scheme": "socks5",
+            "hostname": input("(proxy ip address) > "),
+            "port": int(input("(proxy port) > ")),
+            "username": input("(proxy username) > "),
+            "password": input("(proxy password) > ")
+        }
         session_file_path = os.path.join(account_dir, session_name)
-        bot = Client(session_file_path, api_id, api_hash, proxy=proxy, lang_code="ru")
+        bot = Client(session_file_path, api_id, api_hash, ipv6=True, proxy=proxy, lang_code="ru")
 
         with bot:
             account = bot.get_me()
