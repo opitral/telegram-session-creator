@@ -35,6 +35,7 @@ api_hash = config["Telegram"]["api_hash"]
 def main():
     session_name = input("(session name) > ")
     account_dir = os.path.join(os.getcwd(), "results", session_name)
+    session_file_path = os.path.join(account_dir, session_name)
 
     if os.path.isdir(account_dir):
         logger.error(f"Session with the name \"{session_name}\" already exists")
@@ -46,15 +47,19 @@ def main():
     proxy = None
 
     try:
-        proxy = {
-            "scheme": "socks5",
-            "hostname": input("(proxy ip address) > "),
-            "port": int(input("(proxy port) > ")),
-            "username": input("(proxy username) > "),
-            "password": input("(proxy password) > ")
-        }
-        session_file_path = os.path.join(account_dir, session_name)
-        bot = Client(session_file_path, api_id, api_hash, ipv6=True, proxy=proxy, lang_code="ru")
+        hostname = input("(proxy ip address) > ")
+        if hostname:
+            proxy = {
+                "scheme": "socks5",
+                "hostname": hostname,
+                "port": int(input("(proxy port) > ")),
+                "username": input("(proxy username) > "),
+                "password": input("(proxy password) > ")
+            }
+            bot = Client(session_file_path, api_id, api_hash, ipv6=True, proxy=proxy, lang_code="ru")
+
+        else:
+            bot = Client(session_file_path, api_id, api_hash, lang_code="ru")
 
         with bot:
             account = bot.get_me()
